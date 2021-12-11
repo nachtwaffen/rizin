@@ -1824,7 +1824,7 @@ bool __handle_cursor_mode(RzCore *core, const int key) {
 		break;
 	case '*':
 		if (__check_panel_type(cur, PANEL_CMD_DISASSEMBLY)) {
-			rz_core_debug_reg_set(core, "PC", core->offset + print->cur, NULL);
+			rz_core_reg_set_by_role_or_name(core, "PC", core->offset + print->cur);
 			__set_panel_addr(core, cur, core->offset + print->cur);
 		}
 		break;
@@ -5150,7 +5150,7 @@ void __handle_menu(RzCore *core, const int key) {
 		}
 		break;
 	case '$':
-		rz_core_debug_reg_set(core, "PC", core->offset, NULL);
+		rz_core_reg_set_by_role_or_name(core, "PC", core->offset);
 		break;
 	case ' ':
 	case '\r':
