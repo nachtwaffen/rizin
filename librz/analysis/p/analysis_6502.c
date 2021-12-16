@@ -320,7 +320,12 @@ static void _6502_analysis_esil_flags(RzAnalysisOp *op, ut8 data0) {
 }
 
 static RzPVector *il_6502_op_ld(const char *reg, ut16 imm) {
-	return rz_il_make_oplist(1, rz_il_op_new_set(reg, rz_il_op_new_bitv_from_ut64(8, imm)));
+	return rz_il_make_oplist(1, rz_il_op_new_perform(
+		rz_il_op_new_seq(
+			rz_il_op_new_set(reg, rz_il_op_new_bitv_from_ut64(8, imm)),
+			rz_il_op_new_set(reg, rz_il_op_new_add(rz_il_op_new_var(reg), rz_il_op_new_bitv(rz_bv_new_from_ut64(8, 1))))
+		)
+	));
 }
 
 static int _6502_op(RzAnalysis *analysis, RzAnalysisOp *op, ut64 addr, const ut8 *data, int len, RzAnalysisOpMask mask) {
